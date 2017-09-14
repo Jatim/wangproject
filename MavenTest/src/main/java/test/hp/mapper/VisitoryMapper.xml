@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="test.hp.mapper.VisitoryMapper">
+   <resultMap type="test.hp.bean.Visitory" id="visit">
+      <id  property="visitoryid" column="visitoryid"/>
+      <result property="userid" column="userid"/>
+      <result property="visitid" column="visitid"/>
+      <result property="count" column="count"/>
+      <result property="visitime" column="visitime"/>
+      <!-- 一对一 -->
+   <association property="user" column="userid" javaType="test.hp.bean.User"> 
+      <id property="userid" column="userid"/>
+      <result property="qq" column="qq"/>
+      <result property="username" column="username"/>
+      <result property="password" column="password"/>
+      <result property="headpic" column="headpic"/>
+      <result property="sex" column="sex"/>
+      <result property="birthday" column="birthday"/>
+      <result property="nowaddress" column="nowaddress"/>
+      <result property="hometown" column="hometown"/>
+      <result property="ismarry" column="ismarry"/>
+      <result property="state" column="state"/>
+      <result property="lastvisit" column="lastvisit"/>
+      </association>
+   </resultMap>
+    <select id="findvisitById" resultMap="visit">
+       select * from visitory as v left join user as u on v.visitid=u.userid where v.userid=#{uid}
+    </select>
+</mapper>

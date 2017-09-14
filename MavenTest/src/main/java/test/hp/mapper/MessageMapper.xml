@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+ <mapper namespace="test.hp.mapper.MessageMapper">
+ <resultMap type="test.hp.bean.Message" id="mes">
+     <id property="messageid" column="messageid"/>
+     <result property="receiveid" column="receiveid"/>
+     <result property="senderid" column="senderid"/>
+     <result property="messagetime" column="messagetime"/>
+     <result property="content" column="content"/>
+     <result property="parentmessageid" column="parentmessageid"/>
+     <result property="pic" column="pic"/>
+     <association property="user" column="userid" javaType="test.hp.bean.User">
+          <id property="userid" column="userid"/>
+	      <result property="qq" column="qq"/>
+	      <result property="username" column="username"/>
+	      <result property="password" column="password"/>
+	      <result property="headpic" column="headpic"/>
+	      <result property="sex" column="sex"/>
+	      <result property="birthday" column="birthday"/>
+	      <result property="nowaddress" column="nowaddress"/>
+	      <result property="hometown" column="hometown"/>
+	      <result property="ismarry" column="ismarry"/>
+	      <result property="state" column="state"/>
+	      <result property="lastvisit" column="lastvisit"/>
+     </association>
+  </resultMap>
+    <select id="FindByid" resultMap="mes" parameterType="Integer">
+        select * from Message as m join User as u on m.receiveid=u.userid where m.senderid=#{uid} 
+    </select>
+    <insert id="AddMessage" parameterType="test.hp.bean.Message">
+       insert into Message
+       <trim prefix="(" suffix=")" suffixOverrides=",">
+          <if test="messageid != null">
+             messageid,
+          </if>
+          <if test="receiveid != null">
+             receiveid,
+          </if>
+          <if test="senderid != null">
+             senderid,
+          </if>
+          <if test="messagetime != null">
+             messagetime,
+          </if>
+          <if test="content != null">
+             content,
+          </if>
+          <if test="parentmessageid != null">
+             parentmessageid,
+          </if>
+          <if test="pic != null">
+             pic,
+          </if>
+       </trim>
+       <trim prefix="values(" suffix=")" suffixOverrides=",">
+         <if test="messageid != null">
+             #{messageid},
+          </if>
+          <if test="receiveid != null">
+             #{receiveid},
+          </if>
+          <if test="senderid != null">
+             #{senderid},
+          </if>
+          <if test="messagetime != null">
+             #{messagetime},
+          </if>
+          <if test="content != null">
+             #{content},
+          </if>
+          <if test="parentmessageid != null">
+             #{parentmessageid},
+          </if>
+          <if test="pic != null">
+             #{pic},
+          </if>
+       </trim>
+    </insert>
+    <delete id="DeleteMessage" parameterType="Integer">
+      delete from Message where messageid=#{mesid}
+    </delete>
+ </mapper>

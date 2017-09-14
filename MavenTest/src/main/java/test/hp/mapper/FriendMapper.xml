@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="test.hp.mapper.FriendMapper">
+  <resultMap type="test.hp.bean.Friendmap" id="fd">
+      <id property="friendmapid" column="friendmapid"/>
+      <result property="userid" column="userid"/>
+      <result property="friendid" column="friendid"/>
+      <result property="state" column="state"/>
+      <result property="addtime" column="addtime"/>
+      <association property="user" column="userid" javaType="test.hp.bean.User">
+	      <id property="userid" column="userid"/>
+	      <result property="qq" column="qq"/>
+	      <result property="username" column="username"/>
+	      <result property="password" column="password"/>
+	      <result property="headpic" column="headpic"/>
+	      <result property="sex" column="sex"/>
+	      <result property="birthday" column="birthday"/>
+	      <result property="nowaddress" column="nowaddress"/>
+	      <result property="hometown" column="hometown"/>
+	      <result property="ismarry" column="ismarry"/>
+	      <result property="state" column="state"/>
+	      <result property="lastvisit" column="lastvisit"/>
+      </association>
+  </resultMap>
+  
+    <select id="findmyfriend" resultMap="fd" parameterType="Integer">
+    select * from friendmap as f left join user as u on f.friendid=u.userid where f.userid=1 and f.state=#{state}
+    </select>
+    
+    <select id="findFreind" resultMap="fd">
+     select * from friendmap as f left join user as u on f.friendid=u.userid where f.friendid=#{fid} and f.userid=#{userid}
+    </select>
+    
+    <delete id="JuFriend" parameterType="Integer">
+      delete from friendmap where friendmapid=#{fid}
+    </delete>
+    
+    <update id="stateFriend" parameterType="Integer">
+      update friendmap set state=#{state} where friendmapid=#{fid} 
+    </update>
+</mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="test.hp.mapper.FeelMapper">
+   <resultMap type="test.hp.bean.Feel" id="feel">
+      <id property="feelid" column="feelid"/>
+      <result property="userid" column="userid"/>
+      <result property="feeltime" column="feeltime"/>
+      <result property="feelcontent" column="feelcontent"/>
+      <result property="pic" column="pic"/>
+      <association property="user" column="userid" javaType="test.hp.bean.User">
+	      <id property="userid" column="userid"/>
+	      <result property="qq" column="qq"/>
+	      <result property="username" column="username"/>
+	      <result property="password" column="password"/>
+	      <result property="headpic" column="headpic"/>
+	      <result property="sex" column="sex"/>
+	      <result property="birthday" column="birthday"/>
+	      <result property="nowaddress" column="nowaddress"/>
+	      <result property="hometown" column="hometown"/>
+	      <result property="ismarry" column="ismarry"/>
+	      <result property="state" column="state"/>
+	      <result property="lastvisit" column="lastvisit"/>
+      </association>
+   </resultMap>
+   <select id="FindFeel" resultMap="feel" parameterType="Integer">
+       select * from Feel as f join User as u on f.userid=u.userid where u.userid in (select friendid from Friendmap where userid=#{userid}) OR u.userid=#{userid} order by f.feeltime desc 
+       <if test="fy!=null">
+          LIMIT #{fy},5
+       </if>
+   </select>
+   <insert id="AddFeel" parameterType="test.hp.bean.Feel">
+      insert into Feel
+        <trim prefix="(" suffix=")" suffixOverrides=","> 
+            <if test="userid != null">
+               userid,
+            </if>
+            <if test="feeltime != null">
+               feeltime,
+            </if>
+            <if test="feelcontent != null">
+               feelcontent,
+            </if>
+            <if test="pic != null">
+               pic,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="userid != null">
+               #{userid},
+            </if>
+            <if test="feeltime != null">
+               #{feeltime},
+            </if>
+            <if test="feelcontent != null">
+               #{feelcontent},
+            </if>
+            <if test="pic != null">
+               #{pic},
+            </if>
+        </trim>
+   </insert>
+   <delete id="deleteFeel" parameterType="Integer">
+      delete from Feel where feelid=#{feelid}
+   </delete>
+</mapper>

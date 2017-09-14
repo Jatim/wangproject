@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="test.hp.mapper.UserMapper">
+ <resultMap type="test.hp.bean.User" id="user">
+     <id property="userid" column="userid"/>
+     <result property="qq" column="qq"/>
+     <result property="username" column="username"/>
+     <result property="password" column="password"/>
+     <result property="headpic" column="headpic"/>
+     <result property="sex" column="sex"/>
+     <result property="birthday" column="birthday"/>
+     <result property="nowaddress" column="nowaddress"/>
+     <result property="hometown" column="hometown"/>
+     <result property="ismarry" column="ismarry"/>
+     <result property="state" column="state"/>
+     <result property="lastvisit" column="lastvisit"/>
+ </resultMap>
+ 
+   <sql id="t">userid,qq,username,password,headpic,sex,birthday,nowaddress,hometown,ismarry,state,lastvisit</sql>
+       <!-- 登陆 -->
+   <select id="FindLogin" resultMap="user">
+    select 
+       <include refid="t"></include>
+     from User where qq=#{username} and password=#{password}
+   </select>
+   <!--  更新最后登录时间-->
+   <update id="UpdateLastVisit" parameterType="test.hp.bean.User">
+         update User set lastvisit=#{lastvisit} where userid=#{userid}
+   </update>
+   <!-- 添加用户 -->
+   <insert id="AddUser" useGeneratedKeys="true" keyColumn="uid" parameterType="test.hp.bean.User">
+      insert into User
+         <trim prefix="(" suffix=")" suffixOverrides=",">
+           <if test="userid != null">
+              userid,
+           </if>
+           <if test="qq != null">
+               qq,
+           </if>
+           <if test="username != null">
+              username,
+           </if>
+           <if test="password != null">
+              password,
+           </if>
+           <if test="headpic != null">
+              headpic,
+           </if>
+           <if test="sex != null">
+             sex,
+           </if>
+            <if test="birthday != null">
+             birthday,
+           </if>
+            <if test="nowaddress != null">
+             nowaddress,
+           </if>
+            <if test="hometown != null">
+             hometown,
+           </if>
+            <if test="ismarry != null">
+             ismarry,
+           </if>
+            <if test="state != null">
+             state,
+           </if>
+            <if test="lastvisit != null">
+             lastvisit,
+           </if>
+         </trim>
+         <trim prefix="values (" suffix=")" suffixOverrides=",">
+           <if test="userid != null">
+              #{userid},
+           </if>
+           <if test="qq != null">
+               #{qq},
+           </if>
+           <if test="username != null">
+              #{username},
+           </if>
+           <if test="password != null">
+              #{password},
+           </if>
+           <if test="headpic != null">
+              #{headpic},
+           </if>
+           <if test="sex != null">
+             #{sex},
+           </if>
+            <if test="birthday != null">
+             #{birthday},
+           </if>
+            <if test="nowaddress != null">
+             #{nowaddress},
+           </if>
+            <if test="hometown != null">
+             #{hometown},
+           </if>
+            <if test="ismarry != null">
+             #{ismarry},
+           </if>
+            <if test="state != null">
+             #{state},
+           </if>
+            <if test="lastvisit != null">
+             #{lastvisit},
+           </if>
+         </trim>
+   </insert>
+   <select id="findByQq" resultMap="user">
+     select * from User where qq=#{qq}
+   </select>
+</mapper>
