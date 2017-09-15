@@ -9,5 +9,6 @@
        <mapper resource="test/hp/mapper/FeelMapper.xml"/>
        <mapper resource="test/hp/mapper/MessageMapper.xml"/>
        <mapper resource="test/hp/mapper/FriendMapper.xml"/>
+       <mapper resource="test/hp/mapper/VisitoryMapper.xml"/>
     </mappers>
 </configuration>
